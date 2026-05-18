@@ -31,19 +31,25 @@ export default function App() {
       title: "Decks & Pergolas",
       description: "Custom-built outdoor living spaces designed for durability and style.",
       icon: <PencilRuler className="w-6 h-6" />,
-      image: "https://images.unsplash.com/photo-1590059345003-9029705a3962?auto=format&fit=crop&q=80&w=800"
+      image: "https://images.unsplash.com/photo-1601428243305-25c850953aae?auto=format&fit=crop&q=80&w=800"
     },
     {
       title: "Fences & Retaining Walls",
       description: "Secure, beautiful boundary solutions and structural landscape features.",
       icon: <Fence className="w-6 h-6" />,
-      image: "https://images.unsplash.com/photo-1621293954908-907159238380?auto=format&fit=crop&q=80&w=800"
+      image: "https://images.unsplash.com/photo-1601042860368-debed90085e0?auto=format&fit=crop&q=80&w=800"
     },
     {
-      title: "Window & Door Replacements",
+      title: "Window Replacements",
       description: "Energy-efficient and aesthetic upgrades for your home's entry points.",
       icon: <DoorOpen className="w-6 h-6" />,
-      image: "https://images.unsplash.com/photo-1516455590571-18256e5bb9ff?auto=format&fit=crop&q=80&w=800"
+      image: "https://images.unsplash.com/photo-1637098901773-1d33d75a02bd?auto=format&fit=crop&q=80&w=800"
+    },
+    {
+      title: "Door Replacements",
+      description: "Energy-efficient and aesthetic upgrades for your home's entry points.",
+      icon: <DoorOpen className="w-6 h-6" />,
+      image: "https://images.unsplash.com/photo-1628744876657-abd5086695dc?auto=format&fit=crop&q=80&w=800"
     },
     {
       title: "Kitchen & Bathroom Renovations",
@@ -55,7 +61,7 @@ export default function App() {
       title: "General Carpentry & Maintenance",
       description: "Skilled woodwork and comprehensive property maintenance for your home or business.",
       icon: <Hammer className="w-6 h-6" />,
-      image: "https://images.unsplash.com/photo-1581141849291-11101e0c9a3f?auto=format&fit=crop&q=80&w=800"
+      image: "https://images.unsplash.com/photo-1626081063434-79a2169791b1?auto=format&fit=crop&q=80&w=800"
     }
   ];
 
