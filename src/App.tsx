@@ -4,6 +4,7 @@
  */
 
 import React, { useState } from 'react';
+import skbuiltLogo from './skbuilt.png';
 import {
   Hammer,
   Fence,
@@ -24,7 +25,7 @@ import { motion, AnimatePresence } from 'motion/react';
 
 export default function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [formStatus, setFormStatus] = useState<'idle' | 'submitting' | 'success'>('idle');
+  const [formStatus, setFormStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
 
   const services = [
     {
@@ -65,12 +66,32 @@ export default function App() {
     }
   ];
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setFormStatus('submitting');
-    setTimeout(() => {
+
+    const form = e.currentTarget;
+    const formData = new FormData(form);
+
+    try {
+      const response = await fetch('https://submit-form.com/9miEiv6vh', {
+        method: 'POST',
+        body: formData,
+        headers: {
+          Accept: 'application/json',
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error('Form submission failed');
+      }
+
       setFormStatus('success');
-    }, 1500);
+      form.reset();
+    } catch (error) {
+      console.error(error);
+      setFormStatus('error');
+    }
   };
 
   return (
@@ -79,15 +100,13 @@ export default function App() {
       <nav className="fixed w-full z-50 bg-white/80 backdrop-blur-md border-b border-gray-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-20">
-            <div className="flex items-center gap-3">
-              <div className="bg-[#1B365D] p-2 rounded-lg">
-                <Hammer className="w-6 h-6 text-white" />
-              </div>
-              <div className="flex flex-col">
-                <span className="font-display font-bold text-xl tracking-tight leading-none text-[#1B365D]">SK BUILT</span>
-                <span className="font-display text-sm tracking-[0.2em] font-medium text-[#75787B]">PROJECTS</span>
-              </div>
-            </div>
+            <a href="#" className="flex items-center shrink-0">
+              <img
+                src={skbuiltLogo}
+                alt="SK Built Projects"
+                className="h-14 sm:h-16 w-auto object-contain"
+              />
+            </a>
 
             {/* Desktop Nav */}
             <div className="hidden md:flex items-center gap-8">
@@ -283,34 +302,41 @@ export default function App() {
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
+                    action="https://submit-form.com/9miEiv6vh"
+                    method="POST"
                     onSubmit={handleSubmit}
                     className="space-y-6"
                   >
                     <div className="grid sm:grid-cols-2 gap-6">
                       <div className="space-y-2">
-                        <label className="text-sm font-bold text-gray-700">Name</label>
-                        <input required type="text" placeholder="John Doe" className="w-full px-5 py-4 rounded-2xl bg-gray-50 border-transparent focus:bg-white focus:border-[#1B365D] focus:ring-0 transition-all outline-none" />
+                        <label htmlFor="name" className="text-sm font-bold text-gray-700">Name</label>
+                        <input id="name" name="name" required type="text" placeholder="John Doe" className="w-full px-5 py-4 rounded-2xl bg-gray-50 border-transparent focus:bg-white focus:border-[#1B365D] focus:ring-0 transition-all outline-none" />
                       </div>
                       <div className="space-y-2">
-                        <label className="text-sm font-bold text-gray-700">Phone</label>
-                        <input required type="tel" placeholder="0448469891" className="w-full px-5 py-4 rounded-2xl bg-gray-50 border-transparent focus:bg-white focus:border-[#1B365D] focus:ring-0 transition-all outline-none" />
+                        <label htmlFor="phone" className="text-sm font-bold text-gray-700">Phone</label>
+                        <input id="phone" name="phone" required type="tel" placeholder="0448469891" className="w-full px-5 py-4 rounded-2xl bg-gray-50 border-transparent focus:bg-white focus:border-[#1B365D] focus:ring-0 transition-all outline-none" />
                       </div>
                     </div>
                     <div className="space-y-2">
-                      <label className="text-sm font-bold text-gray-700">Email</label>
-                      <input required type="email" placeholder="john@example.com" className="w-full px-5 py-4 rounded-2xl bg-gray-50 border-transparent focus:bg-white focus:border-[#1B365D] focus:ring-0 transition-all outline-none" />
+                      <label htmlFor="email" className="text-sm font-bold text-gray-700">Email</label>
+                      <input id="email" name="email" required type="email" placeholder="john@example.com" className="w-full px-5 py-4 rounded-2xl bg-gray-50 border-transparent focus:bg-white focus:border-[#1B365D] focus:ring-0 transition-all outline-none" />
                     </div>
                     <div className="space-y-2">
-                      <label className="text-sm font-bold text-gray-700">Service Required</label>
-                      <select className="w-full px-5 py-4 rounded-2xl bg-gray-50 border-transparent focus:bg-white focus:border-[#1B365D] focus:ring-0 transition-all outline-none">
+                      <label htmlFor="service" className="text-sm font-bold text-gray-700">Service Required</label>
+                      <select id="service" name="service" className="w-full px-5 py-4 rounded-2xl bg-gray-50 border-transparent focus:bg-white focus:border-[#1B365D] focus:ring-0 transition-all outline-none">
                         {services.map(s => <option key={s.title}>{s.title}</option>)}
                         <option>Other</option>
                       </select>
                     </div>
                     <div className="space-y-2">
-                      <label className="text-sm font-bold text-gray-700">Message</label>
-                      <textarea required rows={4} placeholder="Tell us about your project..." className="w-full px-5 py-4 rounded-2xl bg-gray-50 border-transparent focus:bg-white focus:border-[#1B365D] focus:ring-0 transition-all outline-none resize-none"></textarea>
+                      <label htmlFor="message" className="text-sm font-bold text-gray-700">Message</label>
+                      <textarea id="message" name="message" required rows={4} placeholder="Tell us about your project..." className="w-full px-5 py-4 rounded-2xl bg-gray-50 border-transparent focus:bg-white focus:border-[#1B365D] focus:ring-0 transition-all outline-none resize-none"></textarea>
                     </div>
+                    {formStatus === 'error' && (
+                      <p className="text-sm text-red-600">
+                        Something went wrong while sending your enquiry. Please try again.
+                      </p>
+                    )}
                     <button
                       disabled={formStatus === 'submitting'}
                       className="w-full bg-[#1B365D] text-white py-5 rounded-2xl font-bold hover:bg-[#1B365D]/90 transition-all disabled:opacity-50"
@@ -329,12 +355,13 @@ export default function App() {
       <footer className="bg-gray-50 py-12 border-t border-gray-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row justify-between items-center gap-8">
-            <div className="flex items-center gap-3">
-              <div className="bg-[#1B365D] p-2 rounded-lg">
-                <Hammer className="w-5 h-5 text-white" />
-              </div>
-              <span className="font-bold tracking-tight text-[#1B365D]">SK BUILT PROJECTS</span>
-            </div>
+            <a href="#" className="flex items-center shrink-0">
+              <img
+                src={skbuiltLogo}
+                alt="SK Built Projects"
+                className="h-12 w-auto object-contain"
+              />
+            </a>
             <div className="text-sm text-gray-500">
               © {new Date().getFullYear()} SK Built Projects. All rights reserved.
             </div>
