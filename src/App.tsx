@@ -72,12 +72,15 @@ export default function App() {
 
     const form = e.currentTarget;
     const formData = new FormData(form);
+    const params = new URLSearchParams();
+    formData.forEach((value, key) => params.append(key, value as string));
 
     try {
       const response = await fetch('https://submit-form.com/9miEiv6vh', {
         method: 'POST',
-        body: formData,
+        body: params,
         headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
           Accept: 'application/json',
         },
       });
