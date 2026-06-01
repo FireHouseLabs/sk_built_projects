@@ -366,11 +366,7 @@ export default function App() {
               />
             </a>
             <div className="text-sm text-gray-500">
-              © {new Date().getFullYear()} SK Built Projects. All rights reserved.
-            </div>
-            <div className="flex gap-8 text-sm font-medium">
-              <a href="#" className="hover:text-[#1B365D]">Privacy Policy</a>
-              <a href="#" className="hover:text-[#1B365D]">Terms of Service</a>
+              © {new Date().getFullYear()} SK Built Projects. All rights reserved. Website by <a href="https://firehouselabs.com.au" className="text-[#1B365D] hover:underline">fireHouse Labs</a>.
             </div>
           </div>
         </div>
